@@ -7,7 +7,7 @@
 #include <linux/string.h>
 #include <linux/uaccess.h>
 #include <linux/printk.h>
-include <linux/evm.h>
+#include <linux/evm.h>
 #include <linux/file.h>
 #include <linux/fs.h>
 #include <linux/kprobes.h>
@@ -30,6 +30,11 @@ include <linux/evm.h>
 #include <linux/bpfptr.h>
 #include <linux/btf_ids.h>
 
+/* 
+ * bpf___vfs_getxattr 
+ * 	void *mem: pointer to struct ebpf_data to allow though verifier
+ * 	int mem__sz: size of pointer 
+ */
 noinline int bpf___vfs_getxattr(void *mem, int mem__sz)
 {
 	int ret;
