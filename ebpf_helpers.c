@@ -30,10 +30,16 @@ include <linux/evm.h>
 #include <linux/bpfptr.h>
 #include <linux/btf_ids.h>
 
+noinline int bpf___vfs_getxattr(struct dentry *dentry, struct inode *inode, const char *name,
+	       void *value, size_t size)
+{
+	int ret;
+	ret = __vfs_getxattr(dentry, inode, name, value, size);
+
+	return ret;
+}
 BTF_SET8_START(evm_kfunc_ids)
-BTF_ID_FLAGS(func, bpf_process_measurement, KF_TRUSTED_ARGS | KF_SLEEPABLE)
-BTF_ID_FLAGS(func,  ima_file_measure, KF_TRUSTED_ARGS | KF_SLEEPABLE)
-BTF_ID_FLAGS(func,  ima_store_measurement, KF_TRUSTED_ARGS | KF_SLEEPABLE)
+BTF_ID_FLAGS(func, bpf___vf_getxattr, KF_TRUSTED_ARGS | KF_SLEEPABLE)
 BTF_SET8_END(evm_kfunc_ids)
 
 static const struct btf_kfunc_id_set bpf_emv_kfunc_set = {
