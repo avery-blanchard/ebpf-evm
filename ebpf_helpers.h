@@ -47,6 +47,7 @@ enum integrity_status (*evm_verifyxattr)(struct dentry *, const char *,
 	void *, size_t);		  
 
 struct ebpf_data {
+	struct mnt_id *idmap;
 	struct dentry *dentry;
 	struct inode *inode;
 	const char *name;
