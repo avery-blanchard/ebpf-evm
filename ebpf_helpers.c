@@ -30,10 +30,23 @@ include <linux/evm.h>
 #include <linux/bpfptr.h>
 #include <linux/btf_ids.h>
 
-noinline int bpf___vfs_getxattr(struct dentry *dentry, struct inode *inode, const char *name,
-	       void *value, size_t size)
+noinline int bpf___vfs_getxattr(void *mem, int mem__sz)
 {
 	int ret;
+	struct dentry *dentry;
+	struct inode *inode;
+	const char *name;
+	void *value;
+	size_t size;
+	
+	struct ebpf_data *data = (struct ebpf_data *) mem;
+	
+	dentry = data->dentry;
+	inode = data->inode;
+	name = data->name;
+	value = data->value;
+	size = data->size;
+
 	ret = __vfs_getxattr(dentry, inode, name, value, size);
 
 	return ret;
