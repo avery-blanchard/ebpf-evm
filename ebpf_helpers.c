@@ -85,9 +85,10 @@ noinline int bpf_vfs_getxattr(void *mem, int mem__sz)
         return ret;
 }
 
+
 BTF_SET8_START(evm_kfunc_ids)
-BTF_ID_FLAGS(func, bpf___vf_getxattr, KF_TRUSTED_ARGS | KF_SLEEPABLE)
-BTF_ID_FLAGS(func, bpf_vf_getxattr, KF_TRUSTED_ARGS | KF_SLEEPABLE)
+BTF_ID_FLAGS(func, bpf___vfs_getxattr, KF_TRUSTED_ARGS | KF_SLEEPABLE)
+BTF_ID_FLAGS(func, bpf_vfs_getxattr, KF_TRUSTED_ARGS | KF_SLEEPABLE)
 BTF_SET8_END(evm_kfunc_ids)
 
 static const struct btf_kfunc_id_set bpf_emv_kfunc_set = {
