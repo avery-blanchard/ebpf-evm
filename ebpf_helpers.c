@@ -85,10 +85,33 @@ noinline int bpf_vfs_getxattr(void *mem, int mem__sz)
         return ret;
 }
 
+/*
+ * bpf_evm_verifyxattr
+ *      void *mem: pointer to struct ebpf_data to allow though verifier
+ *      int mem__sz: size of pointer
+ */
+noinline enum integrity_status bpf_evm_verifyxattr(void *mem, int mem__sz) 
+{
+	struct dentry *dentry;
+	const char *name;
+	void *value;
+	size_t size;
+	
+	
+        struct ebpf_data *data = (struct ebpf_data *) mem;
+
+        dentry = data->dentry;
+        name = data->name;
+        value = data->value;
+        size = data->size;
+
+	return evm_verifyxattr(dentry, name, value, size);
+}
 
 BTF_SET8_START(evm_kfunc_ids)
 BTF_ID_FLAGS(func, bpf___vfs_getxattr, KF_TRUSTED_ARGS | KF_SLEEPABLE)
 BTF_ID_FLAGS(func, bpf_vfs_getxattr, KF_TRUSTED_ARGS | KF_SLEEPABLE)
+BTF_ID_FLAGS(func, bpf_evm_verifyxattr, KF_TRUSTED_ARGS | KF_SLEEPABLE)
 BTF_SET8_END(evm_kfunc_ids)
 
 static const struct btf_kfunc_id_set bpf_emv_kfunc_set = {
